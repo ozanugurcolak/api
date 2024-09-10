@@ -13,11 +13,12 @@ namespace api.Mappers
         {
             return new CommentDto
             {
-                Id=commentModel.Id,
-                Title=commentModel.Title,
-                Content=commentModel.Content,
-                CreatedOn=commentModel.CreatedOn,
-                StockId=commentModel.StockId
+                Id = commentModel.Id,
+                Title = commentModel.Title,
+                Content = commentModel.Content,
+                CreatedOn = commentModel.CreatedOn,
+                CreatedBy = commentModel.AppUser.UserName,
+                StockId = commentModel.StockId
             };
         }
         public static Comment ToCommentFromCreate(this CreateCommentDto commentDto, int stockId)
@@ -34,9 +35,9 @@ namespace api.Mappers
         {
             return new Comment
             {
-                Title=commentDto.Title,
-                Content=commentDto.Content,
-                StockId=stockId
+                Title = commentDto.Title,
+                Content = commentDto.Content,
+                StockId = stockId
             };
         }
     }
