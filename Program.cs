@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using api.Service;
 using Microsoft.OpenApi.Models;
 {
-    
+
 }
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,18 +51,20 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 
 
 
-builder.Services.AddDbContext<ApplicationDBContext>(options => {
+builder.Services.AddDbContext<ApplicationDBContext>(options =>
+{
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 
-builder.Services.AddIdentity<AppUser, IdentityRole> (options => {
+builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
+{
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequiredLength = 12;
-}) .AddEntityFrameworkStores<ApplicationDBContext>();
+}).AddEntityFrameworkStores<ApplicationDBContext>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -89,8 +91,8 @@ builder.Services.AddAuthentication(options =>
 
 
 builder.Services.AddScoped<IStockRepository, StockRepository>();
-builder.Services.AddScoped<ICommentRepository,CommentRepository>();
-builder.Services.AddScoped<ITokenService,TokenService>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 builder.Services.AddScoped<IFMPService, FMPService>();
 builder.Services.AddHttpClient<IFMPService, FMPService>();
@@ -105,6 +107,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials()
+    .SetIsOriginAllowed(origin => true));
 app.UseAuthentication();
 app.UseAuthorization();
 
